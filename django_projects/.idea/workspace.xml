@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a3abbc82-3bca-431d-af92-b1062dac9b8f" name="Changes" comment="" />
+    <list default="true" id="a3abbc82-3bca-431d-af92-b1062dac9b8f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eportal/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/eportal/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eportal/eportal/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/eportal/eportal/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eportal/taskboard/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/eportal/taskboard/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eportal/taskboard/validators.py" beforeDir="false" afterPath="$PROJECT_DIR$/eportal/taskboard/validators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/theme_2/.idea/workspace.xml" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,7 +42,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/gr412_marst/Desktop/asd/lp_5_django/django_projects/theme_2",
+    "last_opened_file_path": "/home/gr412_marst/Desktop/lp_5_django",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -62,10 +69,14 @@
       <updated>1699841169386</updated>
       <workItem from="1699841170664" duration="24930000" />
       <workItem from="1700014100376" duration="303000" />
+      <workItem from="1700019584498" duration="2015000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/django_projects$settings.coverage" NAME="settings Coverage Results" MODIFIED="1700021585436" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eportal/eportal" />
   </component>
 </project>
