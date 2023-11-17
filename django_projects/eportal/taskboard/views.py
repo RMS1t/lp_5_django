@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import CreateView
-from taskboard.models import OrderPetition, RegisterForm, AdvUser
+from .models import OrderPetition, AdvUser
+from .forms import RegisterForm
 
 
 # Create your views here.

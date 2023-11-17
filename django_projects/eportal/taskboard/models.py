@@ -8,24 +8,23 @@ from taskboard.validators import LoginValidator, SNPValidator
 from django.forms import ModelForm
 from django.core.exceptions import NON_FIELD_ERRORS
 
+
 class AdvUser(AbstractUser):
-    pd_agree = models.BooleanField(blank=True,default=False,
-                                   verbose_name='Consent to data processing')
+    pd_agree = models.BooleanField(
+        blank=True,
+        default=False,
+        verbose_name='Consent to data processing')
     login = models.CharField(
         verbose_name='Login',
         max_length=255,
-        help_text=_(
-            "Required field. Enter Latin Login"
-        ),
+        help_text=_("Login"),
         validators=[LoginValidator],
         unique=True,
     )
     username = models.CharField(
         verbose_name='SNP(Surname Name Patronymic)',
         max_length=255,
-        help_text=_(
-            "Required field. Enter Cyrillic Surname First Name Patronymic"
-        ),
+        help_text=_("Cyrillic Surname First Name Patronymic"),
         validators=[SNPValidator],
         unique=False,
     )
@@ -35,8 +34,9 @@ class AdvUser(AbstractUser):
         unique=True,
     )
 
+
     USERNAME_FIELD = 'login'
-    REQUIRED_FIELDS = ['username',]
+    REQUIRED_FIELDS = ['username', ]
 
     def __str__(self):
         return self.login
@@ -53,15 +53,15 @@ class OrderPetition(models.Model):
         PROCESSING = "W", _("Принято на обработку")
         FINISHED = "E", _("Выполнена")
 
-    title = models.CharField(max_length=200,blank=False,null=False)
+    title = models.CharField(max_length=200, blank=False, null=False)
     content = models.TextField(
-        max_length=1000, help_text="Enter a  description of the yours order",blank=False)
+        max_length=1000, help_text="Enter a  description of the yours order", blank=False)
 
     category = models.ForeignKey(
         'Category', on_delete=models.SET_NULL, null=True, blank=False)
 
     user_id = models.ForeignKey(
-        'AdvUser', on_delete=models.SET_NULL, null=True,blank=False)
+        'AdvUser', on_delete=models.SET_NULL, null=True, blank=False)
 
     order_time = models.DateTimeField(auto_now_add=True)
 
@@ -88,7 +88,7 @@ class Category(models.Model):
     """Model representing a Category (e.g. 3d, 2d, Picture, etc.)"""
     name = models.CharField(max_length=200,
                             unique=True,
-                            help_text="Enter the Category",blank=False,null=False)
+                            help_text="Enter the Category", blank=False, null=False)
 
     def get_absolute_url(self):
         """Returns the url to access a particular language instance."""
@@ -97,23 +97,3 @@ class Category(models.Model):
     def __str__(self):
         """String for representing the Model object (in Admin site etc.)"""
         return self.name
-
-
-
-class RegisterForm(ModelForm):
-
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
-    class Meta:
-        model = AdvUser
-        fields = ['login',"username", "password", "email",  "pd_agree"]
-        error_messages = {
-            NON_FIELD_ERRORS: {
-                'unique_together': "%(model_name)s's %(field_labels)s are not unique.",
-            }
-        }
-
-    def clean_password(self):
-        cd = self.cleaned_data
-        if cd['password'] != self.password2:
-            raise forms.ValidationError('Passwords don\'t match.')
-        return AdvUser.set_password(self,raw_password=cd['password'])
