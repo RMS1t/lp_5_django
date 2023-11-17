@@ -1,32 +1,27 @@
 from django.shortcuts import render
+from django.views.generic import CreateView
+from taskboard.models import OrderPetition, RegisterForm, AdvUser
 
 
 # Create your views here.
 def index(request):
-    # Create your views here.
-
-    # Generate counts of some of the main objects
-    num_books = 1
-    num_instances = 1
-
-    # Available books (status = 'a')
-    num_instances_available = 1
-
-    # The 'all()' is implied by default.
-    num_authors = 1  # The 'all()' is implied by default.
-
-    # Number of visits to this view, as counted in the session variable.
-    # num_visits = request.session.get('num_visits', 0)
-    # request.session['num_visits'] = num_visits + 1
-
+    orders = OrderPetition.objects.filter(status__exact="E").order_by('order_time').reverse()[:4]
+    in_working = OrderPetition.objects.filter(status__exact="W").count()
     context = {
-        'num_books': num_books,
-        'num_instances': num_instances,
-        'num_instances_available': num_instances_available,
-        'num_authors': num_authors,
-        'num_visits': 1,
+        'orders': orders,
+        'in_working': in_working,
     }
 
     # Render the HTML template index.html with the data in the context variable.
     return render(request, 'index.html', context=context)
 
+
+class UserCreate(CreateView):
+    # Модель куда выполняется сохранениеs
+    model = AdvUser
+    # Класс на основе которого будет валидация полей
+    form_class = RegisterForm
+
+    template_name = 'registration/user_create.html'
+
+    success_url = '/accounts/login/'

@@ -2,12 +2,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-
+from django.core.validators import validate_image_file_extension, FileExtensionValidator
+from django import forms
 from taskboard.validators import LoginValidator, SNPValidator
-
+from django.forms import ModelForm
+from django.core.exceptions import NON_FIELD_ERRORS
 
 class AdvUser(AbstractUser):
-    pd_agree = models.BooleanField(blank=False, db_index=True,
+    pd_agree = models.BooleanField(blank=True,default=False,
                                    verbose_name='Consent to data processing')
     login = models.CharField(
         verbose_name='Login',
@@ -34,7 +36,7 @@ class AdvUser(AbstractUser):
     )
 
     USERNAME_FIELD = 'login'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['username',]
 
     def __str__(self):
         return self.login
@@ -51,17 +53,24 @@ class OrderPetition(models.Model):
         PROCESSING = "W", _("Принято на обработку")
         FINISHED = "E", _("Выполнена")
 
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200,blank=False,null=False)
     content = models.TextField(
-        max_length=1000, help_text="Enter a  description of the yours order")
-    # ManyToManyField used because a genre can contain many books and a Book can cover many genres.
-    # Genre class has already been defined so we can specify the object above.
+        max_length=1000, help_text="Enter a  description of the yours order",blank=False)
+
     category = models.ForeignKey(
-        'Category', on_delete=models.SET_NULL, null=False)
+        'Category', on_delete=models.SET_NULL, null=True, blank=False)
+
     user_id = models.ForeignKey(
-        'AdvUser', on_delete=models.SET_NULL, null=False)
-    order_time = models.DateTimeField()
-    status = models.CharField(max_length=2, choises=OrderStatus.choices, default=OrderStatus.NEW)
+        'AdvUser', on_delete=models.SET_NULL, null=True,blank=False)
+
+    order_time = models.DateTimeField(auto_now_add=True)
+
+    status = models.CharField(max_length=2, choices=OrderStatus.choices, default=OrderStatus.NEW)
+
+    image = models.ImageField(upload_to='users/%Y/%m/%d/',
+                              validators=[validate_image_file_extension,
+                                          FileExtensionValidator(['bmp', 'jpg', 'jpeg', 'png'],
+                                                                 message='Allowed datatypes:bmp,jpg,jpeg,png')])
 
     class Meta:
         ordering = ['title', 'status']
@@ -79,7 +88,7 @@ class Category(models.Model):
     """Model representing a Category (e.g. 3d, 2d, Picture, etc.)"""
     name = models.CharField(max_length=200,
                             unique=True,
-                            help_text="Enter the Category")
+                            help_text="Enter the Category",blank=False,null=False)
 
     def get_absolute_url(self):
         """Returns the url to access a particular language instance."""
@@ -88,3 +97,23 @@ class Category(models.Model):
     def __str__(self):
         """String for representing the Model object (in Admin site etc.)"""
         return self.name
+
+
+
+class RegisterForm(ModelForm):
+
+    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
+    class Meta:
+        model = AdvUser
+        fields = ['login',"username", "password", "email",  "pd_agree"]
+        error_messages = {
+            NON_FIELD_ERRORS: {
+                'unique_together': "%(model_name)s's %(field_labels)s are not unique.",
+            }
+        }
+
+    def clean_password(self):
+        cd = self.cleaned_data
+        if cd['password'] != self.password2:
+            raise forms.ValidationError('Passwords don\'t match.')
+        return AdvUser.set_password(self,raw_password=cd['password'])
