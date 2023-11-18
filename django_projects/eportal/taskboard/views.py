@@ -1,9 +1,10 @@
+from audioop import reverse
 from django.shortcuts import render
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DeleteView
 from .models import OrderPetition, AdvUser
 from .forms import RegisterForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import HttpResponseRedirect
 
 
 def index(request):
@@ -37,3 +38,20 @@ class OrdersByUserListView(LoginRequiredMixin, ListView):
         return (
             OrderPetition.objects.filter(user_id=self.request.user).order_by('order_time').reverse()
         )
+
+
+
+
+class OrderDelete(PermissionRequiredMixin, DeleteView):
+    model = OrderPetition
+    success_url = '/my-orders/'
+    permission_required = 'delete_order'
+    template_name = 'order_delete_form.html'
+    def form_valid(self, form):
+        try:
+            self.object.delete()
+            return HttpResponseRedirect(self.success_url)
+        except Exception as e:
+            return HttpResponseRedirect(
+            reverse("application-delete", kwargs={"pk": self.object.pk})
+            )
