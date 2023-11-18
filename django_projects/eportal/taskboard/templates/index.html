@@ -14,10 +14,10 @@
         {% for order in orders %}
 <ul>
 
-  <li><strong>Title:</strong> {{ order.title }}</li>
-  <li><strong>Category:</strong> {{ order.category }}</li>
-  <li><strong>Image:</strong> <image src="{{order.image.url }}" style="height: 100px; width: 100px;"></image></li>
-  <li><strong>Timestamp:</strong> {{ order.order_time }}</li>
+  <li><strong>Заявка:</strong> {{ order.title }}</li>
+  <li><strong>Категория:</strong> {{ order.category }}</li>
+  <li><strong>Изображение:</strong> <image src="{{order.design_image.url }}" style="height: 100px; width: 100px;"></image></li>
+  <li><strong>Временная метка:</strong> {{ order.order_time }}</li>
 
 </ul>
     {% endfor %}

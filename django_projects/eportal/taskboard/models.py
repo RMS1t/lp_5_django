@@ -52,12 +52,15 @@ class OrderPetition(models.Model):
         PROCESSING = "W", _("Принято на обработку")
         FINISHED = "E", _("Выполнена")
 
+        def __str__(self):
+            return self.value[1]
+
     title = models.CharField(max_length=200, blank=False, null=False)
     content = models.TextField(
         max_length=1000, help_text="Enter a  description of the yours order", blank=False)
 
     category = models.ForeignKey(
-        'Category', on_delete=models.SET_NULL, null=True, blank=False)
+        'Category', on_delete=models.CASCADE, null=True, blank=False)
 
     user_id = models.ForeignKey(
         'AdvUser', on_delete=models.SET_NULL, null=True, blank=False)
@@ -70,6 +73,12 @@ class OrderPetition(models.Model):
                               validators=[validate_image_file_extension,
                                           FileExtensionValidator(['bmp', 'jpg', 'jpeg', 'png'],
                                                                  message='Allowed datatypes:bmp,jpg,jpeg,png')])
+    design_image = models.ImageField(upload_to='design/%Y/%m/%d/', blank=True,
+                              validators=[validate_image_file_extension,
+                                          FileExtensionValidator(['bmp', 'jpg', 'jpeg', 'png'],
+                                                                 message='Allowed datatypes:bmp,jpg,jpeg,png')])
+    comment= models.TextField(
+        max_length=1000, help_text="Enter a  description of the yours order", blank=True)
 
     class Meta:
         ordering = ['title', 'status']

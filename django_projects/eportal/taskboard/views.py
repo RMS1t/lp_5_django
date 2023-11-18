@@ -31,6 +31,7 @@ class OrdersByUserListView(LoginRequiredMixin, ListView):
     model = OrderPetition
     template_name = 'orders/user_orders.html'
     paginate_by = 10
+    context_object_name = 'order_list'
 
     def get_queryset(self):
         return (

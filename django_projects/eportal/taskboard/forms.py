@@ -9,11 +9,10 @@ class RegisterForm(forms.ModelForm):
 
     def clean(self):
         super().clean()
-        password = self.cleaned_data.get('password')
+        password = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
         if password != password2:
-            raise forms.ValidationError('Passwords don\'t match.'
-                                        )
+            raise forms.ValidationError('Passwords don\'t match.')
     def save(self, commit=True):
         user=super().save(commit=False)
         user.set_password(self.cleaned_data.get('password2'))
@@ -23,6 +22,6 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = AdvUser
-        fields = ['login', "username", "password", "email", "pd_agree"]
+        fields = ['login', "username", "email", "pd_agree"]
 
 
