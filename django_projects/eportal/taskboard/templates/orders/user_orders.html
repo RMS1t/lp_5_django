@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base_generic.html" %}
 
-</body>
-</html>
+{% block content %}
+    <h1>My Orders</h1>
+
+    {% if orderspetition_list %}
+    {% for order in orderspetition_list %}
+    <ul>
+        <li >{{ order.title}}</li>
+        <li >Категория:{{ order.category}}  Статус заявки:{{ order.status}}</li>
+        <li style="width: 100px; height: 100px">{{ order.image }}</li>
+        <li >{{ order.content }}</li>
+        {% if order.status=="N" %}
+        <li> <a href="">Удалить заявку </a></li>
+        {% endif %}
+        <li ></li>
+    </ul>
+    {% endfor %}
+    {% else %}
+      <p>Нет заявок</p>
+    {% endif %}
+{% endblock %}

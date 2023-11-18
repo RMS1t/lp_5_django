@@ -3,10 +3,9 @@ from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import validate_image_file_extension, FileExtensionValidator
-from django import forms
+
 from taskboard.validators import LoginValidator, SNPValidator
-from django.forms import ModelForm
-from django.core.exceptions import NON_FIELD_ERRORS
+
 
 class AdvUser(AbstractUser):
     pd_agree = models.BooleanField(blank=True,default=False,
@@ -100,20 +99,3 @@ class Category(models.Model):
 
 
 
-class RegisterForm(ModelForm):
-
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
-    class Meta:
-        model = AdvUser
-        fields = ['login',"username", "password", "email",  "pd_agree"]
-        error_messages = {
-            NON_FIELD_ERRORS: {
-                'unique_together': "%(model_name)s's %(field_labels)s are not unique.",
-            }
-        }
-
-    def clean_password(self):
-        cd = self.cleaned_data
-        if cd['password'] != self.password2:
-            raise forms.ValidationError('Passwords don\'t match.')
-        return AdvUser.set_password(self,raw_password=cd['password'])
