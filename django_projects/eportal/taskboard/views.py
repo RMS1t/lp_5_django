@@ -3,7 +3,7 @@ from django.views.generic import CreateView, ListView
 from .models import OrderPetition, AdvUser
 from .forms import RegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import OrderPetition
+
 
 
 def index(request):
