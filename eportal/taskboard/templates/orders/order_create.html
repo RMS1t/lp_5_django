@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base_generic.html" %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
 
-</body>
-</html>
+    {{ form.as_table }}
+    <button type="submit">Оставить заявку</button>
+</form>
+{% endblock %}

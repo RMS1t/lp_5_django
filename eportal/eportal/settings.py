@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.management.commands.runserver import Command as runserver
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,9 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a!ud#1_b!2n_@jclez-ydoewykeect(il+cl4376mw2b820af_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = True
+runserver.default_port = "8080"
+runserver. default_addr = "localhost"
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -92,6 +95,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',

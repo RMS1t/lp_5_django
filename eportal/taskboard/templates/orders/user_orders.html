@@ -7,13 +7,13 @@
         {% for order in order_list %}
             <ul style=" border:1px solid black; width: 500px  ">
                 <li>{{ order.title }}</li>
-                <li>Категория:{{ order.category }} }</li>
+                <li>Категория:{{ order.category }} </li>
                  <li>Статус заявки:{{ order.status }}</li>
                 <li>{{ order.content }}</li>
                 <li>{{ order.order_time}}</li>
 
                  {% if order.status == "N" %}
-                    <li><a href="">Удалить заявку </a></li>
+                    <li><a href="{% url 'order-delete' order.id %}">Удалить заявку </a></li>
                  {% endif %}
 {#                {% elif order.status == "W" %}#}
 {#                    <li> Комментарий по работе:{{ order.comment }}</li>#}
