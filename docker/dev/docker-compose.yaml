@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+   web:
+       build:
+         dockerfile: ../docker/python/Dockerfile
+         context: ../../eportal
+         
+
+       volumes:
+        - ../../eportal:/eportal
+       ports:
+           - 8080:8080
