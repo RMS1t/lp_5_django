@@ -9,8 +9,5 @@ COPY . .
 
 
 RUN apt-get update && apt-get install -y libpq-dev build-essential gcc
-
-
-COPY requirements.txt ./
 RUN pip install --no-cache-dir --requirement requirements.txt
 
