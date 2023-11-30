@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-a!ud#1_b!2n_@jclez-ydoewykeect(il+cl4376mw2b820af_
 
 DEBUG = True
 runserver.default_port = "8080"
-runserver. default_addr = "localhost"
+runserver.default_addr = "localhost"
 ALLOWED_HOSTS = ['localhost']
 
 
