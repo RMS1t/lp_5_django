@@ -1,4 +1,5 @@
 # lp_5_django
+cd /docker/dev
+docker compose up build -d 
 
-найденная справочная инфо :
-https://django.fun/qa/374084/
+

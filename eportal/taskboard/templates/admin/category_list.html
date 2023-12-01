@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Категории</h1>
+    <li><a href="{% url 'category-create' %}">Создать категорию </a></li>
+    {% if category_list %}
+        {% for category in  category_list  %}
+            <ul style=" border:1px solid black; width: 500px  ">
+                <li>Категория:{{ category.name }} </li>
+                    <li><a href="{% url 'category-delete' category.id %}">Удалить категорию </a></li>
+            </ul>
+        {% endfor %}
+    {% else %}
+        <p>Нет категорий</p>
+    {% endif %}
+{% endblock %}
